@@ -49,9 +49,6 @@ app.delete('/users/:id', (req, res) => { // rota delete para exclusão de usuár
     }
 });
 
-
-
-
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
