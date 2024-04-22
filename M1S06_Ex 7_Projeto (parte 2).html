@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Consulta de CEP</title>
+</head>
+<body>
+    <h1>Consulta de Endereço por CEP</h1>
+    <button onclick="buscarEndereco()">Buscar CEP</button>
+
+    <script>
+        function buscarEndereco() {
+            // Solicita o CEP ao usuário
+            let cep = prompt("Digite seu CEP:");
+
+            // Faz a requisição à API ViaCEP
+            fetch(`https://viacep.com.br/ws/${cep}/json`, { method: "GET" })
+                .then((retornoFetch) => {
+                    return retornoFetch.json(); // Converte a resposta para JSON
+                })
+                .then((retornoApi) => {
+                    // Monta a string com os dados do endereço e exibe em um alert
+                    alert(`${retornoApi.logradouro}, ${retornoApi.complemento} - 
+                    ${retornoApi.bairro} - ${retornoApi.localidade}/${retornoApi.uf}`);
+
+                    // Pergunta ao usuário se os dados estão corretos
+                    let resposta = prompt("Os dados estão corretos?");
+
+                    // Verifica se a resposta foi afirmativa e, em caso positivo, salva no localStorage
+                    if (resposta.toLowerCase() === "sim") {
+                        localStorage.setItem("endereco", JSON.stringify(retornoApi));
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar o CEP:', error);
+                    alert('Erro ao buscar o CEP. Tente novamente mais tarde.');
+                });
+        }
+    </script>
+</body>
+</html>
