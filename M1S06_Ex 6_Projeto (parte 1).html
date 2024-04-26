@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Consulta CEP</title>
+</head>
+<body>
+    <h1>Consulta de CEP</h1>
+    <button onclick="buscarEndereco()">Buscar CEP</button>
+
+    <script>
+        function buscarEndereco() {
+            let cep = prompt("Digite seu CEP (apenas números):");
+            if (cep && cep.trim().length === 8) {
+                fetch(`https://viacep.com.br/ws/${cep}/json`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Não foi possível obter a resposta do servidor.');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.erro) {
+                            alert("O CEP digitado não foi encontrado.");
+                        } else {
+                            alert(`Endereço: ${data.logradouro}, ${data.complemento} - ${data.bairro} - ${data.localidade}/${data.uf}`);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro na requisição:', error);
+                        alert('Erro ao buscar o CEP. Por favor, tente novamente.');
+                    });
+            } else {
+                alert("Por favor, digite um CEP válido com 8 dígitos.");
+            }
+        }
+    </script>
+</body>
+</html>
