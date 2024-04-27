@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>User Information</h1>
+    <div id="userData"></div>
+
+    <script>
+
+        fetch('http://127.0.0.1:5500/[M1S06]%20Ex%203%20-%20Fetch%20API.html')
+        .then(response => response.json())
+        .then(data =>{
+            const userData = document.getElementById('userData');
+            userData.innerHTML = `<p>Nome: ${data.nome}</p>`
+                                 `<p>Idade: ${data.idade}</p>`
+                                 `<p>Email: ${data.email}</p>`
+        })
+        .catch(error => console.log('Erro ao buscar os dados:'));
+    </script>
+</body>
+</html>

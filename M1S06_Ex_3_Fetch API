@@ -1,0 +1,7 @@
+fetch('caminho_para_o_arquivo/data.json')
+    .then(response => response.json())
+    .then(data => {
+        // Exibir os dados na página HTML
+        document.body.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    })
+    .catch(error => console.error('Erro ao buscar o arquivo:', error));
