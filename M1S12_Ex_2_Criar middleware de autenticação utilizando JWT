@@ -1,34 +1,15 @@
-routes.post('/login', async (req, res) => {
+// verificar a autenticidade 
+const { verify } = require
+async function (auth req, res, next) {
     try {
-        const email = req.body.email
-       
-        const password = req.body.password
-
-        if (!email) {
-            return res.status(400).json({ messagem: 'O email é obrigatório' })
-        }
-
-        if (!password) {
-            return res.status(400).json({ messagem: 'O password é obrigatório' })
-        }
-
-        const aluno = await Aluno.findOne({
-            where: {email:email, password:password}
-        })
-
-        if(!aluno){
-            return res.status(404).json({ messagem: 'Nenhum aluno corresponde a email e senha fornecidos!' })
-        }
-
-        const payload = {sub: aluno.id, email: aluno.email, nome: aluno.nome}
-        console.log(payload)
-        console.log(process.env.SECRET_JWT)
-
-        const token =  sign(payload, process.env.SECRET_JWT)
-        
-        res.status(200).json({Token:token })
+        console.log ("Entramos no Middleware")
+        const { authorization } = req.headers
+        req ['payload'] verify (authorization, process.env.SECRET_JWT)
 
     } catch (error) {
-        return res.status(500).json({ error: error, messagem: 'Algo deu errado!' })
+        return res.status(401).json ({
+            message: "Autenticação falhou"
+            cause: error.message
+        })
     }
-})
+}
