@@ -1,0 +1,60 @@
+// Adicionando email e senha no projeto API Escola 
+
+// 1) Migration → Feita a criação da tabela no comando: 
+sequelize migration:generate --name criar_alter_table_adicionar_login_alunos.
+
+// 2) Models - Adiciona email e senha 
+
+const { DataTypes } = require('sequelize')
+const { connection } = require('../database/connection')
+
+const Aluno = connection.define('alunos', {
+    email:{
+        type: DataTypes.STRING,
+    },
+    password:{
+        type: DataTypes.STRING,
+    },
+    nome: {
+        type: DataTypes.STRING,
+    },
+    data_nascimento: {
+        type: DataTypes.DATE
+    },
+    celular: {
+        type: DataTypes.STRING,
+    }
+})
+
+module.exports = Aluno
+
+
+//3) Vai até o arquivo Routes.js - Adiciona rota de login: 
+
+routes.post('/login', async (req, res) => {
+    try {
+        const email = req.body.email
+        const password = req.body.password
+
+        if (!email) {
+            return res.status(400).json({ messagem: 'O email é obrigatório' })
+        }
+
+        if (!password) {
+            return res.status(400).json({ messagem: 'O password é obrigatório' })
+        }
+
+        const aluno = await Aluno.findOne({
+            where: {email:email, password:password}
+        })
+
+        if(!aluno){
+            return res.status(404).json({ messagem: 'Nenhum aluno corresponde a email e senha fornecidos!' })
+        }
+
+        res.status(200).json({ message: "Esse é teu token JWT: [seu token JWT aqui]" })
+
+    } catch (error) {
+        return res.status(500).json({ error: error, messagem: 'Algo deu errado!' })
+    }
+})
