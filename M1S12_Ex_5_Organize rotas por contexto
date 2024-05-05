@@ -1,0 +1,32 @@
+No caso do projeto da semana 11, segue organização de arquivos por contexto com os arquivos de rotas
+
+
+Pasta src (source project)
+
+config
+
+controllers
+
+database
+
+models
+
+Pasta routes:
+
+alunos.routes.js 
+
+login.routes.js
+
+cursos.routes.js
+
+matricula.routes.js
+
+routes.js
+
+routes.md
+
+index.js
+
+server.js
+
+.env
