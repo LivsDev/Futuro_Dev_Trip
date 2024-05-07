@@ -1,0 +1,20 @@
+// Método para atualizar curso
+
+async update(req, res) {
+    const { id } = req.params;
+
+    try {
+        const curso = await Curso.findByPk(id);
+        if (!curso) {
+            return res.status(404).json({ message: 'Curso não encontrado' });
+        }
+        curso.update(req.body);
+        await curso.save();
+        res.json(curso);
+    } catch (error) {
+        res.status(500).json({ error: 'Não possível atualizar o curso' });
+    }
+}
+}
+
+module.exports = new CursoController();
