@@ -1,0 +1,12 @@
+
+// Método para deletar curso
+
+ async delete(req, res) {
+    const { id } = req.params;
+    try {
+        await Curso.destroy({ where: { id } });
+        res.status(204).json({});
+    } catch (error) {
+        res.status(500).json({ error: 'Não possível deletar o curso' });
+    }
+}
